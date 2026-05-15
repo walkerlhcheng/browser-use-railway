@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-from browser_use import Agent, BrowserConfig, Browser
+from browser_use import Agent
 
 
 
@@ -19,7 +19,7 @@ GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
 
 CDP_URL = os.environ.get("CDP_URL", "http://localhost:9222")
 
-TASK = os.environ.get("TASK", "Go to google.com and search for 'browser-use railway deployment' and summarize the top result.")
+TASK = os.environ.get("TASK", "Go to google.com and search for 'browser-use' and summarize the top result.")
 
 
 
@@ -43,27 +43,17 @@ async def main():
 
 
 
-    browser_config = BrowserConfig(
-
-        cdp_url=CDP_URL,
-
-        headless=False,
-
-    )
-
-
-
-    browser = Browser(config=browser_config)
-
-
-
     agent = Agent(
 
         task=TASK,
 
         llm=llm,
 
-        browser=browser,
+        browser_context_config={
+
+            "cdp_url": CDP_URL
+
+        }
 
     )
 
@@ -74,8 +64,6 @@ async def main():
     result = await agent.run()
 
     print(f"[RESULT] {result}")
-
-    await browser.close()
 
 
 
