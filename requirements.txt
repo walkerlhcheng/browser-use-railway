@@ -1,0 +1,9 @@
+
+browser-use==0.1.40
+
+langchain-google-genai==2.0.4
+
+playwright==1.49.0
+
+python-dotenv==1.0.0
+
